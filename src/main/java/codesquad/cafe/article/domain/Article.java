@@ -1,10 +1,6 @@
 package codesquad.cafe.article.domain;
 
-import codesquad.cafe.article.dto.ArticleResponseDto;
-import codesquad.cafe.article.dto.ArticleUpdateRequestDto;
-
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Article {
 
@@ -23,7 +19,8 @@ public class Article {
         this.writerId = writerId;
     }
 
-    public Article(final String title, final String contents) {
+    public Article(final String writerId, final String title, final String contents) {
+        this.writerId = writerId;
         this.title = title;
         this.contents = contents;
         this.createdAt = LocalDateTime.now();
@@ -54,13 +51,9 @@ public class Article {
         return this;
     }
 
-    public ArticleResponseDto toDto(String writer) {
-        return new ArticleResponseDto(id, writer, title, contents, createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-    }
-
-    public Article update(final ArticleUpdateRequestDto articleUpdateRequestDto) {
-        this.title = articleUpdateRequestDto.getTitle();
-        this.contents = articleUpdateRequestDto.getContents();
+    public Article update(final String title, final String contents) {
+        this.title = title;
+        this.contents = contents;
         return this;
     }
 }

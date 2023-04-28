@@ -21,14 +21,14 @@ public class JdbcTemplateArticleRepository implements ArticleRepository {
     }
 
     @Override
-    public void save(final Article article, final String id) {
+    public void save(final Article article) {
         String sql = "insert into article(title, contents, createdAt, writer_id) " +
                 "values (:title, :contents, :createdAt, :writer_id) ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("title", article.getTitle());
         params.addValue("contents", article.getContents());
         params.addValue("createdAt", article.getCreatedAt());
-        params.addValue("writer_id", id);
+        params.addValue("writer_id", article.getWriterId());
         namedParameterJdbcTemplate.update(sql, params);
     }
 
@@ -68,15 +68,6 @@ public class JdbcTemplateArticleRepository implements ArticleRepository {
                                 ,rs.getString("writer_id"));
                     return article;
         });
-    }
-
-    @Override
-    public String findWriterByUserId(final Article article) {
-        String sql = "SELECT users.name FROM users JOIN article ON users.id = article.writer_id WHERE writer_id = :writerId and article.id = :id";
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("writerId", article.getWriterId());
-        params.addValue("id", article.getId());
-        return namedParameterJdbcTemplate.queryForObject(sql, params, String.class);
     }
 
     @Override

@@ -6,11 +6,9 @@ import codesquad.cafe.global.util.Criteria;
 import java.util.List;
 
 public interface ArticleRepository {
-    void save(Article article, final String id);
+    void save(Article article);
 
     Article findById(Long id);
-
-    String findWriterByUserId(Article article);
 
     void update(Article article);
 
